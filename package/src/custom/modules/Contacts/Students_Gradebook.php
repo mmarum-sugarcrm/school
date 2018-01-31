@@ -2,20 +2,22 @@
 
 if (!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
-class Accounts_Save
+class Students_Gradebook
 {
-    function QueueJob(&$bean, $event, $arguments)
+    function AddStudentToGradebook(&$bean, $event, $arguments)
     {
+        $GLOBALS['log']->fatal('About to add a job to the queue');
+
         require_once('include/SugarQueue/SugarJobQueue.php');
 
         //create the new job
         $job = new SchedulersJob();
         //job name
-        $job->name = "Account Alert Job - {$bean->name}";
+        $job->name = "Add New Student to Gradebook Job - {$bean->name}";
         //data we are passing to the job
         $job->data = $bean->id;
         //function to call
-        $job->target = "function::AccountAlertJob";
+        $job->target = "function::AddStudentToGradebookJob";
 
         global $current_user;
         //set the user the job runs as
@@ -24,6 +26,8 @@ class Accounts_Save
         //push into the queue to run
         $jq = new SugarJobQueue();
         $jobid = $jq->submitJob($job);
+
+        $GLOBALS['log']->fatal('Finished adding job to the queue');
     }
 }
 
