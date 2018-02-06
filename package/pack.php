@@ -58,6 +58,8 @@ $manifest = array(
     ),
 );
 $installdefs = array(
+    'post_execute' => array('<basepath>/src/scripts/reports_install.php'),
+    'pre_uninstall' => array('<basepath>/src/scripts/reports_uninstall.php'),
     'beans' =>
         array (
             array (
